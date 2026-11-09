@@ -582,9 +582,15 @@ document.querySelector('#delete-room-button').addEventListener('click', async ()
   if (!currentRoom || !supabase || !await askForConfirmation(`Delete “${currentRoom.name}” and its room checklist and check-ins for everyone? This cannot be undone.`, {
     title: 'Delete this room?', confirmText: 'Delete room', destructive: true,
   })) return;
-  const { error } = await supabase.from('rooms').delete().eq('id', currentRoom.id);
+  const { count, error } = await supabase.from('rooms').delete({ count: 'exact' }).eq('id', currentRoom.id);
   if (error) {
     setRoomStatus(error.message);
+    return;
+  }
+  if (!count) {
+    const roomName = currentRoom.name;
+    await loadRooms();
+    setRoomStatus(`“${roomName}” was not deleted. Only the room owner can delete it.`);
     return;
   }
   currentRoom = null;
