@@ -675,8 +675,14 @@ function drawRoomBoard(rows, players, selectedDate) {
   table.replaceChildren();
   const head = document.createElement('thead');
   const headerRow = document.createElement('tr');
-  headerRow.append(makeText('th', '', 'Room checklist'));
-  for (const player of players) headerRow.append(makeText('th', 'text-center', player.display_name));
+  const checklistHeader = makeText('th', '', 'Room checklist');
+  checklistHeader.scope = 'col';
+  headerRow.append(checklistHeader);
+  for (const player of players) {
+    const playerHeader = makeText('th', 'text-center', player.display_name);
+    playerHeader.scope = 'col';
+    headerRow.append(playerHeader);
+  }
   head.append(headerRow);
   table.append(head);
   const body = document.createElement('tbody');
@@ -687,10 +693,13 @@ function drawRoomBoard(rows, players, selectedDate) {
   }
   for (const habit of grouped.values()) {
     const tr = document.createElement('tr');
-    tr.append(makeText('th', 'fw-semibold', habit.name));
+    const itemHeader = makeText('th', 'fw-semibold', habit.name);
+    itemHeader.scope = 'row';
+    tr.append(itemHeader);
     for (const player of players) {
       const entry = habit.byPlayer.get(player.user_id);
       const td = makeText('td', entry?.is_completed ? 'text-center room-cell-done' : 'text-center room-cell-pending', '');
+      td.dataset.label = player.display_name;
       if (!entry) td.textContent = '—';
       else if (player.user_id === currentUser?.id) {
         const button = makeText('button', `btn btn-sm rounded-pill ${entry.is_completed ? 'habit-complete is-complete' : 'btn-outline-dark'}`, entry.is_completed ? '✓ Done' : 'Mark done');
