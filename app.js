@@ -4,6 +4,29 @@ document.querySelector('#year').textContent = new Date().getFullYear();
 
 const themeToggle = document.querySelector('#theme-toggle');
 const brandHomeLink = document.querySelector('#brand-home-link');
+const installAppButton = document.querySelector('#install-app-button');
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installAppButton.hidden = false;
+});
+
+installAppButton.addEventListener('click', async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  installAppButton.hidden = true;
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  installAppButton.hidden = true;
+  showToast('HabitArena is installed.');
+});
+
 function setTheme(theme) {
   const isDark = theme === 'dark';
   document.documentElement.dataset.theme = isDark ? 'dark' : 'light';

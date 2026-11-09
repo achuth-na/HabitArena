@@ -4,7 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Build habits together and see your room's progress in HabitArena.">
+    <meta name="theme-color" content="#6b52e8">
     <title>HabitArena — Make consistency a team sport</title>
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
   </head>
@@ -14,6 +18,7 @@
         <a class="navbar-brand fw-bold" id="brand-home-link" href="#home"><span class="brand-mark">H</span> HabitArena</a>
         <div class="d-flex gap-2 ms-auto">
           <a class="btn btn-link text-decoration-none d-none d-sm-inline" id="how-it-works-link" href="#how-it-works">How it works</a>
+          <button class="btn btn-outline-dark rounded-pill px-3" id="install-app-button" type="button" hidden>Install app</button>
           <button class="btn btn-outline-dark rounded-pill px-3" id="profile-button" data-action="profile" type="button" hidden>Profile</button>
           <button class="btn btn-outline-dark rounded-pill px-3" id="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
           <button class="btn btn-outline-dark rounded-pill px-3" type="button" data-action="sign-in">Sign in</button>
