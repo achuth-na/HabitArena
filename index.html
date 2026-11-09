@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Build habits together and see your room's progress in HabitArena.">
+    <title>HabitArena — Make consistency a team sport</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg border-bottom">
+      <div class="container py-2">
+        <a class="navbar-brand fw-bold" id="brand-home-link" href="#home"><span class="brand-mark">H</span> HabitArena</a>
+        <div class="d-flex gap-2 ms-auto">
+          <a class="btn btn-link text-decoration-none d-none d-sm-inline" id="how-it-works-link" href="#how-it-works">How it works</a>
+          <button class="btn btn-outline-dark rounded-pill px-3" id="profile-button" data-action="profile" type="button" hidden>Profile</button>
+          <button class="btn btn-outline-dark rounded-pill px-3" id="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+          <button class="btn btn-outline-dark rounded-pill px-3" type="button" data-action="sign-in">Sign in</button>
+        </div>
+      </div>
+    </nav>
+
+    <main id="home">
+      <section class="hero py-5 py-lg-6">
+        <div class="container py-4">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center">
+              <span class="eyebrow"><span class="live-dot"></span> BETTER TOGETHER</span>
+              <h1 class="display-3 fw-bold mt-3">Make consistency<br><span class="text-accent">a team sport.</span></h1>
+              <p class="lead text-secondary mt-4 mb-4 hero-copy">Build habits with your people. Cheer each other on, track your progress, and see who shows up.</p>
+              <div class="d-flex flex-wrap justify-content-center gap-3">
+                <button class="btn btn-accent btn-lg rounded-pill px-4" type="button" data-action="create-room">Create a room <span aria-hidden="true">→</span></button>
+                <button class="btn btn-outline-dark btn-lg rounded-pill px-4" type="button" data-action="join-room">Join a room</button>
+              </div>
+              <p class="small text-secondary mt-3">Free to start · Private rooms · Your habits, your pace</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-5" id="how-it-works">
+        <div class="container py-4">
+          <div class="text-center mb-5"><p class="eyebrow">SMALL STEPS, SHARED WINS</p><h2 class="display-6 fw-bold">Your goals. Your crew.</h2><p class="text-secondary">A simple space to show up for yourself and each other.</p></div>
+          <div class="row g-4">
+            <div class="col-md-4"><article class="feature-card h-100"><span class="feature-icon">✳</span><h3 class="h5 fw-bold mt-3">Make it yours</h3><p class="text-secondary mb-0">Choose the habits that matter to you. Everyone works on their own goals.</p></article></div>
+            <div class="col-md-4"><article class="feature-card h-100"><span class="feature-icon">↗</span><h3 class="h5 fw-bold mt-3">Show up together</h3><p class="text-secondary mb-0">Create a private room or join one with its name and password. Progress is shared fairly.</p></article></div>
+            <div class="col-md-4"><article class="feature-card h-100"><span class="feature-icon">▥</span><h3 class="h5 fw-bold mt-3">See your growth</h3><p class="text-secondary mb-0">Look back on weekly and monthly trends to celebrate the effort you put in.</p></article></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <section class="dashboard-section" id="dashboard" hidden>
+      <div class="container py-5">
+        <div id="rooms-list-page">
+        <section class="room-section mb-5" aria-labelledby="rooms-title">
+          <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3">
+            <div><p class="eyebrow mb-2">THE COMPETITION</p><h1 class="h2 fw-bold mb-1" id="rooms-title">Your rooms</h1><p class="text-secondary mb-0">Create a room, invite your crew, and compare progress together.</p></div>
+            <div class="d-flex gap-2"><button class="btn btn-outline-dark rounded-pill px-3" data-action="join-room" type="button">Join a room</button><button class="btn btn-accent rounded-pill px-3" data-action="create-room" type="button">Create a room</button></div>
+          </div>
+          <div class="room-list" id="room-list" aria-live="polite"></div>
+          <p class="small text-secondary mt-2" id="room-status" role="status" aria-live="polite"></p>
+        </section>
+        <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+          <div><p class="eyebrow mb-2">YOUR PERSONAL SPACE</p><h1 class="h2 fw-bold mb-1">Today’s habits</h1><p class="text-secondary mb-0" id="today-label"></p></div>
+          <button class="btn btn-accent rounded-pill px-4" type="button" data-action="add-habit">+ Add a habit</button>
+        </div>
+        <div class="row g-3" id="habit-list" aria-live="polite"></div>
+        <div class="empty-state text-center mt-4" id="empty-state" hidden>
+          <span class="feature-icon mx-auto">✳</span><h2 class="h4 fw-bold mt-3">Start with one small habit</h2>
+          <p class="text-secondary">Choose something you’d like to do regularly. You can change it any time.</p>
+          <button class="btn btn-accent rounded-pill px-4" type="button" data-action="add-habit">Add your first habit</button>
+        </div>
+        <p class="small text-secondary mt-4" id="dashboard-status" role="status" aria-live="polite"></p>
+        </div>
+        <section class="room-board room-detail-page" id="room-board" hidden aria-labelledby="room-board-title">
+          <button class="btn btn-link text-decoration-none px-0 mb-3" id="room-back" type="button">← Back to rooms</button>
+          <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-3"><div><p class="eyebrow mb-1">ROOM MATCHUP</p><h2 class="h3 fw-bold mb-1" id="room-board-title"></h2><p class="small text-secondary mb-0">Room checklist progress for each participant.</p></div><div class="d-flex align-items-start gap-3"><div class="room-management" id="room-management" hidden><button class="btn btn-sm btn-outline-dark rounded-pill" id="edit-room-button" type="button">Edit room</button><button class="btn btn-sm btn-outline-danger rounded-pill" id="delete-room-button" type="button">Delete room</button></div><button class="btn btn-sm btn-outline-dark rounded-pill" id="leave-room-button" type="button" hidden>Leave room</button></div></div>
+          <div class="board-date-nav mb-3"><button class="btn btn-outline-dark rounded-circle" id="room-day-previous" type="button" aria-label="Previous day">←</button><strong id="room-board-date"></strong><button class="btn btn-outline-dark rounded-circle" id="room-day-next" type="button" aria-label="Next day">→</button></div>
+          <div class="table-responsive"><table class="table align-middle room-board-table" id="room-board-table"></table></div>
+          <section class="daily-status-section" aria-labelledby="daily-status-title">
+            <p class="eyebrow mb-1">DAILY STATUS</p><h3 class="h5 fw-bold" id="daily-status-title">Progress for this day</h3>
+            <div class="daily-status-cards" id="daily-status-cards" aria-live="polite"></div>
+          </section>
+          <div class="row g-3 mt-2" id="room-reports" hidden>
+            <div class="col-lg-6"><article class="report-card h-100"><p class="eyebrow mb-1">COMPLETED WEEK</p><h3 class="h5 fw-bold" id="weekly-report-title">Weekly report</h3><div id="weekly-report"></div></article></div>
+            <div class="col-lg-6"><article class="report-card h-100"><p class="eyebrow mb-1">COMPLETED MONTH</p><h3 class="h5 fw-bold" id="monthly-report-title">Monthly report</h3><div id="monthly-report"></div></article></div>
+          </div>
+          <p class="small text-secondary mt-3 mb-0" id="room-status-detail" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+    <dialog class="auth-dialog" id="room-dialog" aria-labelledby="room-dialog-title">
+      <form method="dialog" class="dialog-close-row"><button class="dialog-close" aria-label="Close">×</button></form>
+      <div class="auth-content">
+        <p class="eyebrow mb-1">COMPETE TOGETHER</p><h2 class="h3 fw-bold" id="room-dialog-title">Create a room</h2>
+        <p class="text-secondary" id="room-dialog-description">Give your room a name and password to share with your crew.</p>
+        <form id="room-form">
+          <div id="room-name-group"><label class="form-label fw-semibold" for="room-name">Room name</label><input class="form-control form-control-lg mb-3" id="room-name" maxlength="60" placeholder="For example, The Early Birds" required><label class="form-label fw-semibold" for="room-password">Room password</label><input class="form-control form-control-lg mb-3" id="room-password" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required><label class="form-label fw-semibold" for="room-create-checklist-0">Room checklist</label><div id="room-create-checklist" class="checklist-editor"></div><button class="btn btn-sm btn-outline-dark rounded-pill mt-2" id="add-room-checklist-item" type="button">＋ Add a row</button><p class="small text-secondary mt-2 mb-0">Add 1–20 shared checklist items. Each person marks their own progress.</p></div>
+          <div id="room-join-group" hidden><label class="form-label fw-semibold" for="join-room-name">Room name</label><input class="form-control form-control-lg mb-3" id="join-room-name" maxlength="60" autocomplete="off" placeholder="Enter the room name" required><label class="form-label fw-semibold" for="join-room-password">Room password</label><input class="form-control form-control-lg" id="join-room-password" type="password" autocomplete="current-password" placeholder="Enter the room password" required></div>
+          <button class="btn btn-accent btn-lg rounded-pill w-100 mt-4" id="room-submit" type="submit">Create room</button>
+          <p class="auth-status small mt-3 mb-0" id="room-form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </dialog>
+    <dialog class="auth-dialog" id="profile-dialog" aria-labelledby="profile-title">
+      <form method="dialog" class="dialog-close-row"><button class="dialog-close" aria-label="Close">×</button></form>
+      <div class="auth-content"><p class="eyebrow mb-1">YOUR ACCOUNT</p><h2 class="h3 fw-bold" id="profile-title">Edit profile</h2>
+        <form id="profile-form">
+          <label class="form-label fw-semibold" for="profile-name">Name</label><input class="form-control form-control-lg mb-3" id="profile-name" maxlength="40" required>
+          <label class="form-label fw-semibold" for="profile-username">Username</label><input class="form-control form-control-lg" id="profile-username" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+" required><p class="small text-secondary mt-1">3–20 letters, numbers, or underscores. Must be unique.</p>
+          <button class="btn btn-accent btn-lg rounded-pill w-100 mt-2" id="profile-save" type="submit" disabled>Save profile</button><p class="auth-status small mt-3 mb-0" id="profile-status" role="status"></p>
+        </form>
+      </div>
+    </dialog>
+    <dialog class="auth-dialog" id="room-edit-dialog" aria-labelledby="room-edit-title">
+      <form method="dialog" class="dialog-close-row"><button class="dialog-close" aria-label="Close">×</button></form>
+      <div class="auth-content"><p class="eyebrow mb-1">ROOM SETTINGS</p><h2 class="h3 fw-bold" id="room-edit-title">Edit room</h2>
+        <form id="room-edit-form">
+          <label class="form-label fw-semibold" for="edit-room-name">Room name</label><input class="form-control form-control-lg mb-3" id="edit-room-name" maxlength="60" required>
+          <label class="form-label fw-semibold" for="edit-room-password">New room password <span class="text-secondary fw-normal">(optional)</span></label><input class="form-control form-control-lg mb-3" id="edit-room-password" type="password" minlength="8" autocomplete="new-password" placeholder="Leave blank to keep current password">
+          <label class="form-label fw-semibold">Shared checklist</label><div class="checklist-editor" id="room-edit-checklist"></div>
+          <button class="btn btn-sm btn-outline-dark rounded-pill mt-2" id="add-checklist-item" type="button">＋ Add a row</button>
+          <button class="btn btn-accent btn-lg rounded-pill w-100 mt-4" type="submit">Save room</button><p class="auth-status small mt-3 mb-0" id="room-edit-status" role="status"></p>
+        </form>
+      </div>
+    </dialog>
+    <dialog class="auth-dialog" id="habit-dialog" aria-labelledby="habit-dialog-title">
+      <form method="dialog" class="dialog-close-row"><button class="dialog-close" aria-label="Close">×</button></form>
+      <div class="auth-content">
+        <p class="eyebrow mb-1">MAKE IT YOURS</p><h2 class="h3 fw-bold" id="habit-dialog-title">Add a habit</h2>
+        <p class="text-secondary">Choose a habit and how many days per week you want to do it.</p>
+        <form id="habit-form">
+          <label class="form-label fw-semibold" for="habit-name">Habit name</label>
+          <input class="form-control form-control-lg mb-3" id="habit-name" maxlength="80" placeholder="For example, take a walk" required>
+          <label class="form-label fw-semibold" for="habit-target">Days per week</label>
+          <select class="form-select form-select-lg" id="habit-target">
+            <option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option><option value="5">5 days</option><option value="6">6 days</option><option value="7" selected>Every day</option>
+          </select>
+          <button class="btn btn-accent btn-lg rounded-pill w-100 mt-4" type="submit">Save habit</button>
+          <p class="auth-status small mt-3 mb-0" id="habit-form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </dialog>
+    <dialog class="auth-dialog" id="auth-dialog" aria-labelledby="auth-title">
+      <form method="dialog" class="dialog-close-row"><button class="dialog-close" aria-label="Close">×</button></form>
+      <div class="auth-content">
+        <span class="brand-mark">H</span>
+        <p class="eyebrow mt-3 mb-1">YOUR HABITARENA</p>
+        <h2 class="h3 fw-bold" id="auth-title">Welcome back</h2>
+        <p class="text-secondary" id="auth-description">Sign in to check in on your habits and your room.</p>
+        <form id="auth-form">
+          <div id="display-name-group" hidden><label class="form-label fw-semibold" for="display-name">Your name</label><input class="form-control form-control-lg mb-3" id="display-name" maxlength="40" placeholder="What should your room mates call you?" required><label class="form-label fw-semibold" for="signup-username">Unique username</label><input class="form-control form-control-lg mb-3" id="signup-username" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+" placeholder="3–20 letters, numbers, or underscores" required></div>
+          <label class="form-label fw-semibold" for="auth-email">Email</label>
+          <input class="form-control form-control-lg mb-3" id="auth-email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <label class="form-label fw-semibold" id="auth-password-label" for="auth-password">Password</label>
+          <input class="form-control form-control-lg" id="auth-password" type="password" autocomplete="current-password" minlength="8" placeholder="At least 8 characters" required>
+          <button class="switch-button small mt-2" id="forgot-password" type="button">Forgot password?</button>
+          <button class="btn btn-accent btn-lg rounded-pill w-100 mt-4" id="auth-submit" type="submit">Sign in</button>
+        </form>
+        <p class="small text-secondary mt-4 mb-0 text-center" id="auth-switch-row"><span id="auth-switch-label">New to HabitArena?</span> <button class="switch-button" id="auth-switch" type="button">Create an account</button></p>
+        <p class="auth-status small mt-3 mb-0" id="auth-status" role="status" aria-live="polite"></p>
+      </div>
+    </dialog>
+    <dialog class="auth-dialog confirm-dialog" id="confirm-dialog" aria-labelledby="confirm-title">
+      <div class="dialog-close-row"><button class="dialog-close" id="confirm-close" type="button" aria-label="Close">×</button></div>
+      <div class="auth-content">
+        <p class="eyebrow mb-1">PLEASE CONFIRM</p><h2 class="h3 fw-bold" id="confirm-title">Are you sure?</h2>
+        <p class="text-secondary" id="confirm-message"></p>
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <button class="btn btn-outline-dark rounded-pill px-4" id="confirm-cancel" type="button">Cancel</button>
+          <button class="btn btn-danger rounded-pill px-4" id="confirm-accept" type="button">Continue</button>
+        </div>
+      </div>
+    </dialog>
+    <div class="app-toast" id="app-toast" role="status" aria-live="polite" hidden></div>
+    <footer class="border-top py-4"><div class="container d-flex justify-content-between small text-secondary"><span>© <span id="year"></span> HabitArena</span><span>Show up. Grow together.</span></div></footer>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
