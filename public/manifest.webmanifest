@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "HabitArena — Make consistency a team sport",
+  "short_name": "HabitArena",
+  "description": "Build habits together and see your room's progress in HabitArena.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#fbfaf8",
+  "theme_color": "#6b52e8",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
