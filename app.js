@@ -85,6 +85,7 @@ let currentUser = null;
 let isJoiningRoom = false;
 let currentRoom = null;
 const roomCache = new Map();
+let roomLoadGeneration = 0;
 let pendingRoomAction = null;
 let toastTimer = null;
 
@@ -381,29 +382,42 @@ document.querySelector('#add-checklist-item').addEventListener('click', () => {
 
 async function loadRooms() {
   if (!supabase || !currentUser) return;
+  const loadGeneration = ++roomLoadGeneration;
+  const userId = currentUser.id;
   const { data, error } = await supabase.from('room_memberships')
     .select('room_id, rooms(id, name)')
-    .eq('user_id', currentUser.id).order('joined_at', { ascending: true });
+    .eq('user_id', userId).order('joined_at', { ascending: true });
+  if (loadGeneration !== roomLoadGeneration || currentUser?.id !== userId) return;
   if (error) {
     setRoomStatus('Apply the rooms setup in Supabase to enable competition.');
     return;
   }
+
+  const rooms = new Map();
+  for (const membership of data ?? []) {
+    const room = Array.isArray(membership.rooms) ? membership.rooms[0] : membership.rooms;
+    if (room && !rooms.has(room.id)) rooms.set(room.id, room);
+  }
+  const roomRows = await Promise.all([...rooms.values()].map(async (room) => {
+    const { data: players, error: rosterError } = await supabase.rpc('get_room_roster', { p_room_id: room.id });
+    return { room, players, rosterError };
+  }));
+  if (loadGeneration !== roomLoadGeneration || currentUser?.id !== userId) return;
+
   setRoomStatus('');
-  roomList.replaceChildren();
   roomCache.clear();
   roomBoard.hidden = true;
   roomsListPage.hidden = false;
   roomList.hidden = false;
-  if (!data?.length) {
+  if (!roomRows.length) {
+    roomList.replaceChildren();
     const empty = makeText('p', 'small text-secondary mb-0', 'No rooms yet. Create one or join with its name and password.');
     roomList.append(empty);
     return;
   }
-  for (const membership of data) {
-    const room = Array.isArray(membership.rooms) ? membership.rooms[0] : membership.rooms;
-    if (!room) continue;
+  const fragment = document.createDocumentFragment();
+  for (const { room, players, rosterError } of roomRows) {
     roomCache.set(room.id, room);
-    const { data: players, error: rosterError } = await supabase.rpc('get_room_roster', { p_room_id: room.id });
     const roomRow = makeText('button', 'room-row', '');
     roomRow.type = 'button';
     const left = document.createElement('div');
@@ -412,8 +426,9 @@ async function loadRooms() {
     left.append(makeText('span', 'room-row-meta', participantNames || 'You are the first participant'));
     roomRow.append(left);
     roomRow.addEventListener('click', () => openRoom(room));
-    roomList.append(roomRow);
+    fragment.append(roomRow);
   }
+  roomList.replaceChildren(fragment);
 }
 
 async function loadProfile() {
